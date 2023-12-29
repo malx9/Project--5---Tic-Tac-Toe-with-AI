@@ -1,0 +1,21 @@
+html {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  background: rgb(106, 56, 213);
+  background: linear-gradient(
+    133deg,
+    rgba(106, 56, 213, 1) 0%,
+    rgba(190, 109, 41, 1) 48%,
+    rgba(25, 111, 143, 1) 100%
+  );
+}
+
+.logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

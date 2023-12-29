@@ -1,0 +1,36 @@
+html {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  background: rgb(106, 56, 213);
+  background: linear-gradient(
+    133deg,
+    rgba(106, 56, 213, 1) 0%,
+    rgba(190, 109, 41, 1) 48%,
+    rgba(25, 111, 143, 1) 100%
+  );
+}
+
+.logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
+}
+
+.game--board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 700px;
+  height: 500px;
+  margin: auto;
+}
+
+.square {
+  background-color: rgb(163, 128, 64, 0.2);
+  border: 1px solid #2c3e50;
+}
