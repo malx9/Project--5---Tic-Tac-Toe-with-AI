@@ -61,7 +61,7 @@ const humanTurn = () => {
       const squareID = Number(e.target.id);
       // console.log(squareID);
       humanChoices.push(squareID);
-      console.log("HUMAN CHOICES:", humanChoices);
+      // console.log("HUMAN CHOICES:", humanChoices);
       // squaresLeft.splice(`${squareID}` - 1, 1);
       const squareToRemoveIndex = squaresLeft.indexOf(squareID);
       // console.log("squareToRemoveIndex:", squareToRemoveIndex);
@@ -72,6 +72,10 @@ const humanTurn = () => {
       aiTurn();
     }
   };
+
+  // The problem: at some point when some row is full, the patternFinder shows all patterns (even those that are already full) and it chooses multiple squares which amount corresponds to the amount of patterns. For instance, if there's 3 patterns, the AI chooses 3 numbers, where at least one of them is rendered undefined because it had already been chosen before. This causes a TypeError with the appendChild method.
+
+  // The solution: make the AI only choose one square, even when there are multiple patterns. Take into account that some moves may be better than the others in certain situations.
 
   const aiTurn = () => {
     turn = false;
@@ -106,16 +110,18 @@ const humanTurn = () => {
           const commonElements = pattern.filter((choice) =>
             humanChoices.includes(choice)
           );
+          console.log("commonElements now is --", commonElements);
 
           if (commonElements.length === 2) {
-            return pattern.find((choice) => !humanChoices.includes(choice));
+            return pattern.find(
+              (choice) =>
+                !humanChoices.includes(choice) && !AIChoices.includes(choice)
+            );
           }
-
           return null;
         })
-        .filter((element) => element !== null);
-
-      console.log("AI Choice:", aiChoice);
+        .filter((element) => element !== null); // to-do: another .filter() needs to be added to filter out the arrays from the patternFinder which include any of the winningPatterns that have already been exhausted (as in all the squares in the pattern have already been chosen, for instance if 1-4-7 all exhausted => throw it out of the patternFinder)
+      AIChoices.push(aiChoice[0]); // CHECK THIS
     }
 
     let indexForChoice;
@@ -126,6 +132,8 @@ const humanTurn = () => {
       aiChoice = possibleChoices[indexForChoice];
       AIChoices.push(aiChoice);
     }
+
+    console.log("THE AI CHOSE -", aiChoice);
 
     // console.log("possibleChoices", possibleChoices);
     // console.log("index for choice", indexForChoice);
@@ -142,7 +150,7 @@ const humanTurn = () => {
     // console.log("squareToRemoveIndex:", squareToRemoveIndex);
     squareToRemoveIndex !== -1
       ? squaresLeft.splice(squareToRemoveIndex, 1)
-      : console.log("The square has already been taken!");
+      : console.log("The square has already been taken!", squareToRemoveIndex);
     // console.log(squaresLeft);
     console.log("AIChoices", AIChoices);
     turn = true;
