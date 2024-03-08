@@ -80,7 +80,7 @@ const humanTurn = () => {
   const aiTurn = () => {
     turn = false;
     playerIndicator.textContent = "AI's turn...";
-    let aiChoice = 0;
+    let aiChoice = [];
 
     const matchingPatterns = winningPatterns.filter((pattern) =>
       pattern.some((choice) => humanChoices.includes(choice))
@@ -122,15 +122,40 @@ const humanTurn = () => {
         })
         .filter((element) => element !== null); // to-do: another .filter() needs to be added to filter out the arrays from the patternFinder which include any of the winningPatterns that have already been exhausted (as in all the squares in the pattern have already been chosen, for instance if 1-4-7 all exhausted => throw it out of the patternFinder)
       AIChoices.push(aiChoice[0]); // CHECK THIS
+
+      for (let i = 0; i < patternFinder.length; i++) {
+        let exhaustedPattern = [];
+        let allExhaustedPatterns = [];
+        for (let j = 0; j < winningPatterns.length; j++) {
+          if (winningPatterns[j] === patternFinder[i]) {
+            console.log("EXHAUSTED PATTERN FOUND");
+            allExhaustedPatterns.push(winningPatterns[j]);
+            // console.log("EXHAUSTED PATTERN THIS ROUND:", exhaustedPattern);
+            console.log("ALL EXHAUSTED PATTERNS:", allExhaustedPatterns);
+            // let exhaustedPatternIndex = patternFinder.indexOf(
+            //   exhaustedPattern[0]
+            // );
+            // console.log(
+            //   "THIS IS THE INDEX FOR THE EXHAUSTED PATTERN",
+            //   exhaustedPatternIndex
+            // );
+            // patternFinder.splice(exhaustedPatternIndex, 1);
+            // console.log("patternFinder AFTER SPLICE", patternFinder);
+          }
+        }
+      }
     }
 
     let indexForChoice;
 
     if (patternFinder.length === 0) {
-      indexForChoice = Math.floor(Math.random() * possibleChoices.length);
+      indexForChoice = Math.floor(Math.random() * possibleChoices.length); // this is problematic - maybe a rule so that the AI cannot take an already taken square?
 
-      aiChoice = possibleChoices[indexForChoice];
+      aiChoice.push(possibleChoices[indexForChoice]);
       AIChoices.push(aiChoice);
+      console.log(
+        "This AI Choice has been made because patternFinder.length === 0"
+      );
     }
 
     console.log("THE AI CHOSE -", aiChoice);
@@ -146,13 +171,17 @@ const humanTurn = () => {
     oImg.classList.add("o--shape");
     targetSquare.appendChild(oImg);
 
-    const squareToRemoveIndex = squaresLeft.indexOf(aiChoice);
+    console.log("this is what aiChoice holds now:", aiChoice);
+    const squareToRemoveIndex = squaresLeft.indexOf(aiChoice[0]);
     // console.log("squareToRemoveIndex:", squareToRemoveIndex);
-    squareToRemoveIndex !== -1
+    squareToRemoveIndex !== null
       ? squaresLeft.splice(squareToRemoveIndex, 1)
       : console.log("The square has already been taken!", squareToRemoveIndex);
-    // console.log(squaresLeft);
-    console.log("AIChoices", AIChoices);
+    console.log("AIChoices made in this game:", AIChoices);
+    console.log("squares left on the board:", squaresLeft);
+    console.log(
+      "_______________________NEXT ROUND_______________________________"
+    );
     turn = true;
   };
 
