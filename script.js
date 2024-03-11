@@ -151,8 +151,9 @@ const humanTurn = () => {
     if (patternFinder.length === 0) {
       indexForChoice = Math.floor(Math.random() * possibleChoices.length); // this is problematic - maybe a rule so that the AI cannot take an already taken square?
 
-      aiChoice.push(possibleChoices[indexForChoice]);
-      AIChoices.push(aiChoice);
+      let chosenSquare = possibleChoices[indexForChoice];
+      aiChoice.push(chosenSquare);
+      AIChoices.push(chosenSquare);
       console.log(
         "This AI Choice has been made because patternFinder.length === 0"
       );
