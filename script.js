@@ -120,31 +120,22 @@ const humanTurn = () => {
           }
           return null;
         })
-        .filter((element) => element !== null); // to-do: another .filter() needs to be added to filter out the arrays from the patternFinder which include any of the winningPatterns that have already been exhausted (as in all the squares in the pattern have already been chosen, for instance if 1-4-7 all exhausted => throw it out of the patternFinder)
-      AIChoices.push(aiChoice[0]); // CHECK THIS
+        .filter((choice) => choice !== null && squaresLeft.includes(choice))[0];
+      // this condition is crucial - it makes sure that patternFinder does not include the patterns that have been fully exhausted
 
-      for (let i = 0; i < patternFinder.length; i++) {
-        let exhaustedPattern = [];
-        let allExhaustedPatterns = [];
-        for (let j = 0; j < winningPatterns.length; j++) {
-          if (winningPatterns[j] === patternFinder[i]) {
-            console.log("EXHAUSTED PATTERN FOUND");
-            allExhaustedPatterns.push(winningPatterns[j]);
-            // console.log("EXHAUSTED PATTERN THIS ROUND:", exhaustedPattern);
-            console.log("ALL EXHAUSTED PATTERNS:", allExhaustedPatterns);
-            // let exhaustedPatternIndex = patternFinder.indexOf(
-            //   exhaustedPattern[0]
-            // );
-            // console.log(
-            //   "THIS IS THE INDEX FOR THE EXHAUSTED PATTERN",
-            //   exhaustedPatternIndex
-            // );
-            // patternFinder.splice(exhaustedPatternIndex, 1);
-            // console.log("patternFinder AFTER SPLICE", patternFinder);
-          }
-        }
+      if (aiChoice !== undefined) {
+        AIChoices.push(aiChoice);
+        console.log("WILL IT WORK????:", aiChoice);
       }
     }
+
+    // const isSquareAvail = (square) => {
+    //   for (let i = 0; i < patternFinder.length; i++) {
+    //     for (let j = 0; j < squaresLeft.length; j++) {
+    //       if (patternFinder[i])
+    //     }
+    //   }
+    // }
 
     let indexForChoice;
 
